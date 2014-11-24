@@ -1,0 +1,9 @@
+{
+    "name": "TestForHeroku",
+    "version": "0.0.1",
+    "description": "Our sample Node to Heroku app",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    }
+}
