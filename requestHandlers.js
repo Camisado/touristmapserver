@@ -2,7 +2,6 @@ var querystring = require("querystring");
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var url = 'mongodb://camisado:test@ds053090.mongolab.com:53090/heroku_app31942135';
-var urlstring = require("url");
 
 function start(response, postData) {
     MongoClient.connect(url, function(err, db) {
