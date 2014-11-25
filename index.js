@@ -1,8 +1,10 @@
-var http = require("http");
+var server = require("./server");
+var router = require("./router");
+var requestHandlers = require("./requestHandlers");
 
-http.createServer(function(request, response) {
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.write("Hello Heroku");
-    response.end();
-}).listen(process.env.PORT || 5000);
-console.log("server started.");
+var handle = {}
+handle["/"] = requestHandlers.start;
+handle["/start"] = requestHandlers.start;
+handle["/add"] = requestHandlers.add;
+
+server.start(router.route, handle);
