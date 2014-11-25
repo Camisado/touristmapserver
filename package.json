@@ -1,9 +1,13 @@
 {
-    "name": "TestForHeroku",
+    "name": "touristmapserver",
     "version": "0.0.1",
-    "description": "Our sample Node to Heroku app",
+    "description": "Database server of Tourist map",
     "main": "index.js",
     "scripts": {
         "start": "node index.js"
+    },
+    "dependencies": {
+        "mongodb": "~2.0",
+        "connect": "1.8.x"
     }
 }
