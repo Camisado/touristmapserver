@@ -3,7 +3,7 @@ var url = require("url");
 
 function start(route, handle) {
     function onRequest(request, response) {
-        var postData = "";
+        var postData = url.parse(request.url);
         var pathname = url.parse(request.url).pathname;
         console.log("Request for " + pathname + " received.");
 
@@ -21,7 +21,7 @@ function start(route, handle) {
 
     }
 
-    http.createServer(onRequest).listen(process.env.PORT || 5000);
+    http.createServer(onRequest).listen(8888);//(process.env.PORT || 5000);
     console.log("Server has started.");
 }
 
