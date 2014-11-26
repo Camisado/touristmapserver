@@ -98,26 +98,42 @@ function upload(response, request) {
     console.log("Request handler 'upload' was called.");
 
     var form = new formidable.IncomingForm();
+    console.log(form.upload);
     console.log("about to parse");
     form.parse(request, function(error, fields, files) {
         console.log("parsing done");
-        console.log(files.upload.path);
-        cloudinary.uploader.upload(files.upload.path, function(result) {
-            console.log(result);
+        if (files.upload) {
+            console.log(files.upload.path);
+            cloudinary.uploader.upload(files.upload.path, function (result) {
+                console.log(result);
+                response.writeHead(200, {"Content-Type": "text/html"});
+                var body = '<html>' +
+                    '<head>' +
+                    '<meta http-equiv="Content-Type" ' +
+                    'content="text/html; charset=UTF-8" />' +
+                    '</head>' +
+                    '<body>' +
+                    '<img src="' + result.url + '" alt="my img" />' +
+                    '</body>' +
+                    '</html>';
+                response.write(body);
+                //console.log(querystring.parse(postData.query));
+                response.end();
+            });
+        } else {
             response.writeHead(200, {"Content-Type": "text/html"});
-            var body = '<html>'+
-                '<head>'+
-                '<meta http-equiv="Content-Type" '+
-                'content="text/html; charset=UTF-8" />'+
-                '</head>'+
-                '<body>'+
-                '<img src="'+result.url+'" alt="my img" />' +
-                '</body>'+
+            var body = '<html>' +
+                '<head>' +
+                '<meta http-equiv="Content-Type" ' +
+                'content="text/html; charset=UTF-8" />' +
+                '</head>' +
+                '<body>' +
+                'No image' +
+                '</body>' +
                 '</html>';
             response.write(body);
-            //console.log(querystring.parse(postData.query));
             response.end();
-        });
+        }
     });
 }
 
