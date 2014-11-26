@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "mongodb": "~2.0",
-        "connect": "1.8.x"
+        "connect": "1.8.x",
+        "cloudinary": ""
     }
 }
