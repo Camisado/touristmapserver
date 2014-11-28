@@ -79,124 +79,13 @@ function find(response, request) {
 }
 
 function upload(response, request) {
-//    /*cloudinary.uploader.upload("d:\\phonegap\\GoogleMapsAPIV3\\www\\img\\logo.png", function(result) {
-//        console.log(result);
-//        response.writeHead(200, {"Content-Type": "text/html"});
-//        var body = '<html>'+
-//            '<head>'+
-//            '<meta http-equiv="Content-Type" '+
-//            'content="text/html; charset=UTF-8" />'+
-//            '</head>'+
-//            '<body>'+
-//            '<img src="'+result.url+'" alt="my img" />' +
-//            '</body>'+
-//            '</html>';
-//        response.write(body);
-//        //console.log(querystring.parse(postData.query));
-//        response.end();
-//    });*/
-//    console.log("Request handler 'upload' was called.");
-//    if (request.method == 'POST') {
-//        console.log("request post");
-//        var jsonString = '';
-//        request.on('data', function (data) {
-//            jsonString += data;
-//        });
-//        request.on('end', function () {
-//            console.log(jsonString);
-//            cloudinary.uploader.upload(jsonString, function(result) {
-//                console.log(result);
-//                response.writeHead(200, {"Content-Type": "text/html"});
-//                var body = '<html>'+
-//                    '<head>'+
-//                    '<meta http-equiv="Content-Type" '+
-//                    'content="text/html; charset=UTF-8" />'+
-//                    '</head>'+
-//                    '<body>'+
-//                    '<img src="'+result.url+'" alt="my img" />' +
-//                    '</body>'+
-//                    '</html>';
-//                response.write(body);
-//                //console.log(querystring.parse(postData.query));
-//                response.end();
-//        });
-//    });
-//    }
-
-    console.log("Request handler 'upload' was called.");
+   console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
     form.parse(request, function(error, fields, files) {
-        /*response.writeHead(200, {"Content-Type": "application/json"});
-        response.write(JSON.stringify(files));
-        response.end();*/
-        //logs the file information
         console.log(JSON.stringify(files));
-        cloudinary.uploader.upload(files.file.path, function(result) {
-            console.log(JSON.stringify(result));
-            response.writeHead(200, {"Content-Type": "text/html"});
-            var body = '<html>'+
-                '<head>'+
-                '<meta http-equiv="Content-Type" '+
-                'content="text/html; charset=UTF-8" />'+
-                '</head>'+
-                '<body>'+
-                '<img src="'+result.url+'" alt="my img" />' +
-                '</body>'+
-                '</html>';
-            response.write(body);
-            response.end();
-        });
-
-        /*fs.rename(files.file.path, "/tmp/test.png", function(err) {
-            if (err) {
-                fs.unlink("/tmp/test.png");
-                fs.rename(files.file.path, "/tmp/test.png");
-            }
-        });*/
-
-        /*if (files.upload) {
-            console.log(files.upload.path);
-            cloudinary.uploader.upload(files.upload.path, function (result) {
-                console.log(result);
-                response.writeHead(200, {"Content-Type": "text/html"});
-                var body = '<html>' +
-                    '<head>' +
-                    '<meta http-equiv="Content-Type" ' +
-                    'content="text/html; charset=UTF-8" />' +
-                    '</head>' +
-                    '<body>' +
-                    'Image uploaded to server' +
-                    '</body>' +
-                    '</html>';
-                response.write(body);
-                //console.log(querystring.parse(postData.query));
-                response.end();
-            });
-        } else {
-            response.writeHead(200, {"Content-Type": "text/html"});
-            var body = '<html>' +
-                '<head>' +
-                '<meta http-equiv="Content-Type" ' +
-                'content="text/html; charset=UTF-8" />' +
-                '</head>' +
-                '<body>' +
-                'No image' +
-                '</body>' +
-                '</html>';
-            response.write(body);
-            response.end();
-        }*/
-    });
-
-    /*var form = new formidable.IncomingForm();
-    console.log(form);
-    console.log("about to parse");
-    form.parse(request, function(error, fields, files) {
-        console.log("parsing done");
-        if (files.upload) {
-            console.log(files.upload.path);
-            cloudinary.uploader.upload(files.upload.path, function (result) {
-                console.log(result);
+        if (files.file) {
+            cloudinary.uploader.upload(files.file.path, function (result) {
+                console.log(JSON.stringify(result));
                 response.writeHead(200, {"Content-Type": "text/html"});
                 var body = '<html>' +
                     '<head>' +
@@ -208,7 +97,6 @@ function upload(response, request) {
                     '</body>' +
                     '</html>';
                 response.write(body);
-                //console.log(querystring.parse(postData.query));
                 response.end();
             });
         } else {
@@ -219,13 +107,13 @@ function upload(response, request) {
                 'content="text/html; charset=UTF-8" />' +
                 '</head>' +
                 '<body>' +
-                'No image' +
+                'image?' +
                 '</body>' +
                 '</html>';
             response.write(body);
             response.end();
         }
-    });*/
+    });
 }
 
 function show(response) {
