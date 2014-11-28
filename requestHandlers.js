@@ -129,8 +129,31 @@ function upload(response, request) {
 
         //logs the file information
         console.log(JSON.stringify(files));
+        cloudinary.uploader.upload(files.file, function(result) {
+            //console.log(result);
+            response.writeHead(200, {"Content-Type": "text/html"});
+            var body = '<html>'+
+                '<head>'+
+                '<meta http-equiv="Content-Type" '+
+                'content="text/html; charset=UTF-8" />'+
+                '</head>'+
+                '<body>'+
+                '<img src="'+result.url+'" alt="my img" />' +
+                '</body>'+
+                '</html>';
+            response.write(body);
+            //console.log(querystring.parse(postData.query));
+            response.end();
+        });
 
-        if (files.upload) {
+        /*fs.rename(files.file.path, "/tmp/test.png", function(err) {
+            if (err) {
+                fs.unlink("/tmp/test.png");
+                fs.rename(files.file.path, "/tmp/test.png");
+            }
+        });*/
+
+        /*if (files.upload) {
             console.log(files.upload.path);
             cloudinary.uploader.upload(files.upload.path, function (result) {
                 console.log(result);
@@ -161,7 +184,7 @@ function upload(response, request) {
                 '</html>';
             response.write(body);
             response.end();
-        }
+        }*/
     });
 
     /*var form = new formidable.IncomingForm();
