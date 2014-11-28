@@ -126,12 +126,12 @@ function upload(response, request) {
     console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
     form.parse(request, function(error, fields, files) {
-        response.writeHead(200, {"Content-Type": "application/json"});
+        /*response.writeHead(200, {"Content-Type": "application/json"});
         response.write(JSON.stringify(files));
-        response.end();
+        response.end();*/
         //logs the file information
-        /*console.log(JSON.stringify(files));
-        cloudinary.uploader.upload(files.file.path, function(result) {
+        console.log(JSON.stringify(files));
+        cloudinary.uploader.upload(files.upload.path, function(result) {
             console.log(JSON.stringify(result));
             response.writeHead(200, {"Content-Type": "text/html"});
             var body = '<html>'+
@@ -144,9 +144,8 @@ function upload(response, request) {
                 '</body>'+
                 '</html>';
             response.write(body);
-            //console.log(querystring.parse(postData.query));
             response.end();
-        });*/
+        });
 
         /*fs.rename(files.file.path, "/tmp/test.png", function(err) {
             if (err) {
