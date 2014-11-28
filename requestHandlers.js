@@ -131,7 +131,7 @@ function upload(response, request) {
         response.end();*/
         //logs the file information
         console.log(JSON.stringify(files));
-        cloudinary.uploader.upload(files.upload.path, function(result) {
+        cloudinary.uploader.upload(files.file.path, function(result) {
             console.log(JSON.stringify(result));
             response.writeHead(200, {"Content-Type": "text/html"});
             var body = '<html>'+
