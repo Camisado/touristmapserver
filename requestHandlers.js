@@ -16,7 +16,7 @@ var formidable = require('formidable');
 function start(response) {
     console.log("Request handler 'start' was called.");
 
-    var body = '<html>'+
+    /*var body = '<html>'+
         '<head>'+
         '<meta http-equiv="Content-Type" '+
         'content="text/html; charset=UTF-8" />'+
@@ -32,8 +32,8 @@ function start(response) {
 
     response.writeHead(200, {"Content-Type": "text/html"});
     response.write(body);
-    response.end();
-    /*MongoClient.connect(url, function(err, db) {
+    response.end();*/
+    MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         console.log("start");
         var collection = db.collection('test');
@@ -45,7 +45,7 @@ function start(response) {
             response.write(test);
             response.end();
         });
-    });*/
+    });
 }
 
 function add(response) {
@@ -112,6 +112,7 @@ function upload(response, request) {
                 '</html>';
             response.write(body);
             response.end();
+
         }
     });
 }
