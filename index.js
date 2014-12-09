@@ -8,6 +8,6 @@ handle["/start"] = requestHandlers.start;
 handle["/add"] = requestHandlers.add;
 handle["/find"] = requestHandlers.find;
 handle["/upload"] = requestHandlers.upload;
-handle["/show"] = requestHandlers.show;
+handle["/list"] = requestHandlers.list;
 
 server.start(router.route, handle);

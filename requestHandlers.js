@@ -16,36 +16,26 @@ var formidable = require('formidable');
 function start(response) {
     console.log("Request handler 'start' was called.");
 
-    /*var body = '<html>'+
+    var body = '<html>'+
         '<head>'+
         '<meta http-equiv="Content-Type" '+
         'content="text/html; charset=UTF-8" />'+
         '</head>'+
         '<body>'+
-        '<form action="/upload" enctype="multipart/form-data" '+
-        'method="post">'+
-        '<input type="file" name="upload">'+
-        '<input type="submit" value="Upload file" />'+
-        '</form>'+
+        '<h1>Server commands:</h1>'+
+        '<li><a href="/start">Start</a></li>'+
+        '<li><a href="/list">List</a></li>'+
+        '<li><a href="/find">Find</a></li>'+
+        '<li><a href="/add">Add</a></li>'+
+        '<li><a href="/upload">Upload</a></li>'+
+        '<ul>'+
+        '</ul>'+
         '</body>'+
         '</html>';
 
     response.writeHead(200, {"Content-Type": "text/html"});
     response.write(body);
-    response.end();*/
-    MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-        console.log("start");
-        var collection = db.collection('test');
-        collection.find({}, {"_id": 0}).toArray(function(err, docs) {
-            var test = JSON.stringify(docs);
-            console.log(test);
-            db.close();
-            response.writeHead(200, {"Content-Type": "application/json"});
-            response.write(test);
-            response.end();
-        });
-    });
+    response.end();
 }
 
 function add(response) {
@@ -117,18 +107,20 @@ function upload(response, request) {
     });
 }
 
-function show(response) {
-    console.log("Request handler 'show' was called.");
-    fs.readFile("d:\\phonegap\\GoogleMapsAPIV3\\www\\img\\logo.png", "binary", function(error, file) {
-        if(error) {
-            response.writeHead(500, {"Content-Type": "text/plain"});
-            response.write(error + "\n");
+function list(response) {
+    console.log("Request handler 'list' was called.");
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+        console.log("start");
+        var collection = db.collection('test');
+        collection.find({}, {"_id": 0}).toArray(function(err, docs) {
+            var test = JSON.stringify(docs);
+            console.log(test);
+            db.close();
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.write(test);
             response.end();
-        } else {
-            response.writeHead(200, {"Content-Type": "image/png"});
-            response.write(file, "binary");
-            response.end();
-        }
+        });
     });
 }
 
@@ -136,4 +128,4 @@ exports.start = start;
 exports.add = add;
 exports.find = find;
 exports.upload = upload;
-exports.show = show;
+exports.list = list;
