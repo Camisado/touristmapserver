@@ -89,7 +89,7 @@ function upload(response, request) {
                     '</html>';
                 response.write(body);
                 response.end();
-            });
+            }, { public_id: "images/" });
         } else {
             response.writeHead(200, {"Content-Type": "text/html"});
             var body = '<html>' +
