@@ -72,7 +72,8 @@ function upload(response, request) {
    console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
     form.parse(request, function(error, fields, files) {
-        console.log(JSON.stringify(files));
+        console.log("FILES: " + JSON.stringify(files));
+        console.log("FIELDS: " + JSON.stringify(fields));
         if (files.file) {
             cloudinary.uploader.upload(files.file.path, function (result) {
                 console.log(JSON.stringify(result));
