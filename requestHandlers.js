@@ -39,10 +39,21 @@ function start(response) {
 }
 
 function add(response, request) {
-
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.write(JSON.stringify(request));
-    response.end();
+    var form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields) {
+        console.log(fields);
+        MongoClient.connect(url, function(err, db) {
+            assert.equal(null, err);
+            var collection = db.collection('place');
+            var place = JSON.stringify(fields);
+            collection.insert(place, function(err, result) {
+                db.close();
+                response.writeHead(200, {"Content-Type": "application/json"});
+                response.write(JSON.stringify(place));
+                response.end();
+            });
+        });
+    });
     /*MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         var collection = db.collection('test');
