@@ -41,19 +41,24 @@ function start(response) {
 function add(response, request) {
     var form = new formidable.IncomingForm();
     form.parse(request, function (err, fields) {
-        console.log(fields);
-        MongoClient.connect(url, function(err, db) {
-            assert.equal(null, err);
-            var collection = db.collection('place');
-            var place = JSON.stringify(fields);
-            collection.insert(place, function(err, result) {
-                db.close();
-                response.writeHead(200, {"Content-Type": "application/json"});
-                response.write(JSON.stringify(place));
-                response.end();
+        console.log("fields: " + fields.info);
+        if(request.method === 'POST') {
+            MongoClient.connect(url, function (err, db) {
+                assert.equal(null, err);
+                var collection = db.collection('place');
+                var place = fields;
+                collection.insert(place, function (err, result) {
+                    db.close();
+                    response.writeHead(200, {"Content-Type": "application/json"});
+                    response.write(JSON.stringify(result.ops));
+                    response.end();
+                });
             });
-        });
-    });
+        } else {
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.write("no data");
+            response.end();
+        }
     /*MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         var collection = db.collection('test');
@@ -64,13 +69,14 @@ function add(response, request) {
             response.write(JSON.stringify(doc1));
             response.end();
         });
-    });*/
+    });   */
+    });
 }
 
 function find(response, request) {
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        var collection = db.collection('test');
+        var collection = db.collection('place');
         collection.find(querystring.parse(urlstring.parse(request.url).query), {"_id": 0}).toArray(function(err, docs) {
             var test = JSON.stringify(docs);
             console.log(test);
@@ -84,7 +90,7 @@ function find(response, request) {
 }
 
 function upload(response, request) {
-   console.log("Request handler 'upload' was called.");
+    console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
     form.parse(request, function(error, fields, files) {
         console.log("FILES: " + JSON.stringify(files));
@@ -127,8 +133,7 @@ function list(response) {
     console.log("Request handler 'list' was called.");
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        console.log("start");
-        var collection = db.collection('test');
+        var collection = db.collection('place');
         collection.find({}, {"_id": 0}).toArray(function(err, docs) {
             var test = JSON.stringify(docs);
             console.log(test);
