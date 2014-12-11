@@ -38,8 +38,12 @@ function start(response) {
     response.end();
 }
 
-function add(response) {
-    MongoClient.connect(url, function(err, db) {
+function add(response, request) {
+
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write(JSON.stringify(request));
+    response.end();
+    /*MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         var collection = db.collection('test');
         var doc1 = {'hello':'doc1'};
@@ -49,7 +53,7 @@ function add(response) {
             response.write(JSON.stringify(doc1));
             response.end();
         });
-    });
+    });*/
 }
 
 function find(response, request) {
