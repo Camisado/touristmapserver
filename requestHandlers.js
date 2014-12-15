@@ -59,17 +59,6 @@ function add(response, request) {
             response.write("no data");
             response.end();
         }
-    /*MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-        var collection = db.collection('test');
-        var doc1 = {'hello':'doc1'};
-        collection.insert(doc1, function(err, result) {
-            db.close();
-            response.writeHead(200, {"Content-Type": "application/json"});
-            response.write(JSON.stringify(doc1));
-            response.end();
-        });
-    });   */
     });
 }
 
@@ -98,31 +87,13 @@ function upload(response, request) {
         if (files.file) {
             cloudinary.uploader.upload(files.file.path, function (result) {
                 console.log(JSON.stringify(result));
-                response.writeHead(200, {"Content-Type": "text/html"});
-                var body = '<html>' +
-                    '<head>' +
-                    '<meta http-equiv="Content-Type" ' +
-                    'content="text/html; charset=UTF-8" />' +
-                    '</head>' +
-                    '<body>' +
-                    '<img src="' + result.url + '" alt="my img" />' +
-                    '</body>' +
-                    '</html>';
-                response.write(body);
+                response.writeHead(200, {"Content-Type": "application/json"});
+                response.write(result.url);
                 response.end();
             });
         } else {
-            response.writeHead(200, {"Content-Type": "text/html"});
-            var body = '<html>' +
-                '<head>' +
-                '<meta http-equiv="Content-Type" ' +
-                'content="text/html; charset=UTF-8" />' +
-                '</head>' +
-                '<body>' +
-                'image?' +
-                '</body>' +
-                '</html>';
-            response.write(body);
+            response.writeHead(200, {"Content-Type": "application/json"});
+            response.write("no image");
             response.end();
 
         }
