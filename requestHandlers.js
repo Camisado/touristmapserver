@@ -50,7 +50,7 @@ function add(response, request) {
                 collection.insert(place, function (err, result) {
                     db.close();
                     response.writeHead(200, {"Content-Type": "application/json"});
-                    response.write("Add successful: Your place will be reviewed later.");
+                    response.write(JSON.stringify(result.ops));
                     response.end();
                 });
             });
