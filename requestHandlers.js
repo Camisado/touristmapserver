@@ -41,11 +41,12 @@ function start(response) {
 function add(response, request) {
     var form = new formidable.IncomingForm();
     form.parse(request, function (err, fields) {
-        console.log("fields: " + fields.info);
+        //console.log("fields: " + fields.info);
         if(request.method === 'POST') {
             MongoClient.connect(url, function (err, db) {
                 assert.equal(null, err);
-                var collection = db.collection('place');
+                var params = querystring.parse(urlstring.parse(request.url).query);
+                var collection = db.collection(params.collection);
                 var place = fields;
                 collection.insert(place, function (err, result) {
                     db.close();
@@ -65,14 +66,15 @@ function add(response, request) {
 function find(response, request) {
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        var collection = db.collection('place');
+        var params = querystring.parse(urlstring.parse(request.url).query);
+        var collection = db.collection(params.collection);
         collection.find(querystring.parse(urlstring.parse(request.url).query), {"_id": 0}).toArray(function(err, docs) {
             var test = JSON.stringify(docs);
-            console.log(test);
+            //console.log(test);
             db.close();
             response.writeHead(200, {"Content-Type": "application/json"});
             response.write(test);
-            console.log(querystring.parse(urlstring.parse(request.url).query));
+            //console.log(querystring.parse(urlstring.parse(request.url).query));
             response.end();
         });
     });
@@ -82,11 +84,11 @@ function upload(response, request) {
     console.log("Request handler 'upload' was called.");
     var form = new formidable.IncomingForm();
     form.parse(request, function(error, fields, files) {
-        console.log("FILES: " + JSON.stringify(files));
-        console.log("FIELDS: " + JSON.stringify(fields));
+        //console.log("FILES: " + JSON.stringify(files));
+        //console.log("FIELDS: " + JSON.stringify(fields));
         if (files.file) {
             cloudinary.uploader.upload(files.file.path, function (result) {
-                console.log(JSON.stringify(result));
+                //console.log(JSON.stringify(result));
                 response.writeHead(200, {"Content-Type": "application/json"});
                 response.write(result.url);
                 response.end();
@@ -100,17 +102,18 @@ function upload(response, request) {
     });
 }
 
-function list(response) {
+function list(response, request) {
     console.log("Request handler 'list' was called.");
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        var collection = db.collection('place');
+        var params = querystring.parse(urlstring.parse(request.url).query);
+        //console.log(params);
+        var collection = db.collection(params.collection);
         collection.find({}, {"_id": 0}).toArray(function(err, docs) {
-            var test = JSON.stringify(docs);
-            console.log(test);
+            var list = JSON.stringify(docs);
             db.close();
             response.writeHead(200, {"Content-Type": "application/json"});
-            response.write(test);
+            response.write(list);
             response.end();
         });
     });
