@@ -13,6 +13,14 @@ cloudinary.config({
 var fs = require("fs");
 var formidable = require('formidable');
 
+var head = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "X-Requested-With, Origin",
+    "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Credentials": true
+};
+
 function start(response) {
     console.log("Request handler 'start' was called.");
 
@@ -50,13 +58,13 @@ function add(response, request) {
                 var place = fields;
                 collection.insert(place, function (err, result) {
                     db.close();
-                    response.writeHead(200, {"Content-Type": "application/json"});
+                    response.writeHead(200, head);
                     response.write(JSON.stringify(result.ops));
                     response.end();
                 });
             });
         } else {
-            response.writeHead(200, {"Content-Type": "application/json"});
+            response.writeHead(200, head);
             response.write("no data");
             response.end();
         }
@@ -72,7 +80,7 @@ function find(response, request) {
             var test = JSON.stringify(docs);
             //console.log(test);
             db.close();
-            response.writeHead(200, {"Content-Type": "application/json"});
+            response.writeHead(200, head);
             response.write(test);
             //console.log(querystring.parse(urlstring.parse(request.url).query));
             response.end();
@@ -89,12 +97,12 @@ function upload(response, request) {
         if (files.file) {
             cloudinary.uploader.upload(files.file.path, function (result) {
                 //console.log(JSON.stringify(result));
-                response.writeHead(200, {"Content-Type": "application/json"});
+                response.writeHead(200, head);
                 response.write(result.url);
                 response.end();
             });
         } else {
-            response.writeHead(200, {"Content-Type": "application/json"});
+            response.writeHead(200, head);
             response.write("no image");
             response.end();
 
@@ -112,7 +120,7 @@ function list(response, request) {
         collection.find({}, {"_id": 0}).toArray(function(err, docs) {
             var list = JSON.stringify(docs);
             db.close();
-            response.writeHead(200, {"Content-Type": "application/json"});
+            response.writeHead(200, head);
             response.write(list);
             response.end();
         });
