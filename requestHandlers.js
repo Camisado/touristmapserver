@@ -16,7 +16,7 @@ var formidable = require('formidable');
 var head = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "X-Requested-With, Origin",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
     "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Credentials": true
 };
